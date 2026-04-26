@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiLembreteApplication<api_lembrete>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.app.api_lembrete.ApiLembreteApplication",
+            "projectName": "api_lembrete",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
