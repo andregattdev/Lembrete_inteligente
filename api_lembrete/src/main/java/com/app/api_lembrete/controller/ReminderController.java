@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,8 +35,8 @@ public class ReminderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReminderResponse>> getAllReminders(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername());
+    public ResponseEntity<List<ReminderResponse>> getAllReminders(@RequestHeader("X-User-Id") Long userId) {
+        User user = userService.findById(userId);
         List<ReminderResponse> reminders = reminderService.findAllByUser(user)
                 .stream()
                 .map(ReminderResponse::new)
@@ -47,31 +46,31 @@ public class ReminderController {
 
     @PostMapping
     public ResponseEntity<Reminder> createReminder(@RequestBody ReminderRequest req,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername());
+            @RequestHeader("X-User-Id") Long userId) {
+        User user = userService.findById(userId);
         return ResponseEntity.ok(reminderService.create(req, user));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Reminder> updateReminder(@PathVariable Long id,
             @RequestBody ReminderRequest req,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername());
+            @RequestHeader("X-User-Id") Long userId) {
+        User user = userService.findById(userId);
         return ResponseEntity.ok(reminderService.update(id, req, user));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReminder(@PathVariable Long id,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername());
+            @RequestHeader("X-User-Id") Long userId) {
+        User user = userService.findById(userId);
         reminderService.delete(id, user);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/toggle-complete")
     public ResponseEntity<Reminder> toggleComplete(@PathVariable Long id,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername());
+            @RequestHeader("X-User-Id") Long userId) {
+        User user = userService.findById(userId);
         return ResponseEntity.ok(reminderService.toggleComplete(id, user));
     }
 }

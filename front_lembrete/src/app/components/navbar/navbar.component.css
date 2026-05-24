@@ -1,0 +1,33 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(var(--bg-secondary), 0.7);
+    background-color: var(--bg-secondary) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0 24px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.theme-toggle-btn {
+    margin-right: 16px;
+    color: var(--text-primary) !important;
+}
+
+.welcome-text {
+    margin-right: 24px;
+    font-size: 15px;
+    color: var(--text-secundary);
+}
+
+.logout-btn {
+    color: var(--error) !important;
+}

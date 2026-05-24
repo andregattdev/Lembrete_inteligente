@@ -2,7 +2,6 @@ package com.app.api_lembrete.service;
 
 import java.util.List;
 
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.app.api_lembrete.dto.ReminderRequest;
@@ -39,7 +38,7 @@ public class ReminderService {
         .orElseThrow(() -> new RuntimeException("Lembrete não encontrado"));
 
     if (!reminder.getUser().equals(user)) {
-        throw new AccessDeniedException("Você não pode alterar lembretes de outro usuário");
+        throw new RuntimeException("Você não pode alterar lembretes de outro usuário");
     }
 
     reminder.setTitle(req.getTitle());

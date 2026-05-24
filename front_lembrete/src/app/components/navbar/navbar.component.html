@@ -1,0 +1,25 @@
+<mat-toolbar class="navbar">
+      <span class="gradient-text" style="font-weight: 700; font-size: 20px; letter-spacing: -0.5px; cursor: pointer;" routerLink="/">
+        Lembrete Inteligente - Gattermeyer Nexus
+      </span>
+      <span class="spacer"></span>
+      
+      <!-- Theme Toggle Button (Always visible) -->
+      <button mat-icon-button (click)="toggleTheme()" class="theme-toggle-btn" matTooltip="Alternar Tema Claro/Escuro">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <ng-container *ngIf="authService.currentUser | async as user; else loggedOut">
+        <span class="welcome-text">
+          <span style="color: var(--text-secondary)">Olá, </span> 
+          <span style="font-weight: 600;">{{ user.username }}</span>
+        </span>
+        <button mat-button class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon> Sair
+        </button>
+      </ng-container>
+      <ng-template #loggedOut>
+        <button mat-raised-button color="primary" routerLink="/login" style="margin-right: 8px;">Entrar</button>
+        <button mat-raised-button color="primary" routerLink="/register">Registrar</button>
+      </ng-template>
+    </mat-toolbar>

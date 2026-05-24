@@ -1,0 +1,229 @@
+/* CSS Variables for Premium Dark Theme */
+:root {
+  /* Colors */
+  --bg-primary: #0f111a;
+  --bg-secondary: #1a1d29;
+  --bg-tertiary: #232736;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a0a5b8;
+  --text-muted: #6b7280;
+  
+  --accent-primary: #8b5cf6; /* Indigo/Purple */
+  --accent-primary-hover: #7c3aed;
+  --accent-secondary: #ec4899; /* Pink */
+  
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  /* Typography */
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Layout & Styling */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  
+  --glass-bg: rgba(35, 39, 54, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f3f4f6; /* Slate 100 */
+  --bg-secondary: #ffffff; /* White */
+  --bg-tertiary: #e5e7eb; /* Slate 200 */
+  
+  --text-primary: #0f172a; /* Slate 900 */
+  --text-secondary: #475569; /* Slate 600 */
+  --text-muted: #94a3b8; /* Slate 400 */
+  
+  --accent-primary: #6366f1; /* Indigo */
+  --accent-primary-hover: #4f46e5;
+  --accent-secondary: #db2777; /* Pink */
+  
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  /* Smooth scrolling and anti-aliasing */
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Utilities */
+.glass-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-md) !important;
+  color: var(--text-primary) !important;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hover-scale {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease !important;
+}
+
+.hover-scale:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--shadow-lg), 0 0 15px rgba(139, 92, 246, 0.3) !important;
+}
+
+/* Material overrides for premium feel in Dark Mode */
+.mat-mdc-card {
+  border-radius: var(--radius-lg) !important;
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-card-title {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+}
+
+.mat-mdc-card-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+/* Inputs & Form Fields */
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: var(--glass-border) !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: var(--text-primary) !important;
+}
+
+.mdc-floating-label {
+  color: var(--text-secondary) !important;
+}
+
+.mat-mdc-form-field-error {
+  color: var(--error) !important;
+}
+
+/* Primary Button Overrides */
+.mdc-button--raised.mat-primary {
+  background: linear-gradient(135deg, var(--accent-primary), #6324d6) !important;
+  color: white !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all 0.3s ease !important;
+}
+
+.mdc-button--raised.mat-primary:hover:not([disabled]) {
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.success-snackbar {
+  background-color: var(--success) !important;
+  color: white !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.error-snackbar {
+  background-color: var(--error) !important;
+  color: white !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.warning-snackbar {
+  background: linear-gradient(135deg, var(--warning), #d97706) !important;
+  color: white !important;
+  border-radius: var(--radius-md) !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4) !important;
+}
+
+/* Custom Scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted); 
+}
+
+/* Dialog Overrides */
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-lg) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-dialog-title {
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Material Select Overlay Panels & Option Overrides for Theme Adaptability */
+.cdk-overlay-container .mat-mdc-select-panel {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.cdk-overlay-container .mat-mdc-option {
+  color: var(--text-primary) !important;
+}
+
+.cdk-overlay-container .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.cdk-overlay-container .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.cdk-overlay-container .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: var(--accent-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* Theme Toggle Button Tooltip & Animation Adjustments */
+.theme-toggle-btn {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(20deg) scale(1.1) !important;
+}

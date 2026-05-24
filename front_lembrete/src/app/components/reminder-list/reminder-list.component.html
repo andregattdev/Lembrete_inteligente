@@ -1,0 +1,151 @@
+<div class="container">
+  
+  <!-- Header -->
+  <div class="header">
+    <h2 class="gradient-text title-main">Meus Lembretes</h2>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="openForm()" class="add-btn">
+        <mat-icon>add</mat-icon> Novo Lembrete
+      </button>
+      
+    </div>
+  </div>
+
+  <!-- Dashboard Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card glass-card hover-scale">
+      <div class="stat-icon-wrapper blue">
+        <mat-icon>list_alt</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Total</span>
+        <span class="stat-value">{{ totalCount }}</span>
+      </div>
+    </div>
+    
+    <div class="stat-card glass-card hover-scale">
+      <div class="stat-icon-wrapper orange">
+        <mat-icon>pending_actions</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Pendentes</span>
+        <span class="stat-value">{{ pendingCount }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card glass-card hover-scale">
+      <div class="stat-icon-wrapper green">
+        <mat-icon>task_alt</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Concluídos</span>
+        <span class="stat-value">{{ completedCount }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card glass-card hover-scale" [class.danger-glow]="overdueCount > 0">
+      <div class="stat-icon-wrapper red">
+        <mat-icon>notification_important</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Atrasados</span>
+        <span class="stat-value red-text">{{ overdueCount }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filters Panel -->
+  <div class="filters-panel glass-card">
+    <div class="filter-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Pesquisar Lembretes</mat-label>
+        <input matInput [(ngModel)]="searchText" placeholder="Ex: Estudar Java..." autocomplete="off">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-select">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="selectedStatus">
+          <mat-option value="ALL">Todos</mat-option>
+          <mat-option value="PENDING">Pendentes</mat-option>
+          <mat-option value="COMPLETED">Concluídos</mat-option>
+          <mat-option value="OVERDUE">Atrasados</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-select">
+        <mat-label>Prioridade</mat-label>
+        <mat-select [(ngModel)]="selectedPriority">
+          <mat-option value="ALL">Todas</mat-option>
+          <mat-option value="BAIXA">Baixa</mat-option>
+          <mat-option value="MEDIA">Média</mat-option>
+          <mat-option value="ALTA">Alta</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-select">
+        <mat-label>Categoria</mat-label>
+        <mat-select [(ngModel)]="selectedCategory">
+          <mat-option value="ALL">Todas</mat-option>
+          <mat-option *ngFor="let cat of uniqueCategories" [value]="cat">{{ cat }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Reminders Cards Grid -->
+  <div class="grid">
+    <mat-card *ngFor="let reminder of filteredReminders" 
+              class="reminder-card hover-scale" 
+              [class.completed]="reminder.completed"
+              [class.overdue-card]="!reminder.completed && isOverdue(reminder)">
+      
+      <!-- Overdue warning badge -->
+      <div *ngIf="!reminder.completed && isOverdue(reminder)" class="overdue-badge">
+        <mat-icon>error_outline</mat-icon> ATRASADO
+      </div>
+
+      <mat-card-header>
+        <mat-card-title [class.strikethrough]="reminder.completed">{{ reminder.title }}</mat-card-title>
+        <mat-card-subtitle class="due-date-subtitle">
+          <mat-icon class="subtitle-icon">calendar_today</mat-icon>
+          {{ reminder.dueDate | date:'dd/MM/yyyy HH:mm' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="description-text">{{ reminder.description || 'Sem descrição.' }}</p>
+        <div class="chips">
+          <mat-chip-set>
+            <mat-chip [color]="getPriorityColor(reminder.priority)" selected>{{ reminder.priority }}</mat-chip>
+            <mat-chip [style.background-color]="getCategoryColor(reminder.category)" style="color: white; font-weight: 500;">
+              {{ reminder.category }}
+            </mat-chip>
+            <mat-chip *ngIf="reminder.recurring" class="recurring-chip" selected>
+              <mat-icon class="chip-icon">replay</mat-icon> Recorrente
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="card-actions">
+        <button mat-icon-button class="action-btn check-btn" (click)="toggleComplete(reminder.id!)" [matTooltip]="reminder.completed ? 'Reabrir Lembrete' : 'Concluir Lembrete'">
+          <mat-icon class="action-icon">{{ reminder.completed ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+        </button>
+        <button mat-icon-button class="action-btn edit-btn" (click)="openForm(reminder)" matTooltip="Editar Lembrete">
+          <mat-icon class="action-icon">edit</mat-icon>
+        </button>
+        <button mat-icon-button class="action-btn delete-btn" (click)="deleteReminder(reminder.id!)" matTooltip="Excluir Lembrete">
+          <mat-icon class="action-icon">delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  
+  <!-- Empty State -->
+  <div *ngIf="filteredReminders.length === 0" class="empty-state glass-card">
+    <mat-icon class="empty-icon animate-pulse">inbox</mat-icon>
+    <p class="empty-title">Nenhum lembrete encontrado</p>
+    <p class="empty-subtitle">Tente ajustar seus filtros de busca ou crie um novo lembrete.</p>
+  </div>
+</div>
